@@ -98,3 +98,22 @@ Flask documentation: https://flask.palletsprojects.com/
 Web3.py documentation: https://web3py.readthedocs.io/
 
 MetaMask for wallet  https://metamask.io
+
+
+
+
+
+
+DO THIS IF SOMEONE ASKS U TO SHOW THE DATABASE
+
+
+
+✅ Use SQLite Viewer Extension (Recommended)
+
+🧩 Step-by-step:
+Open VS Code
+Go to Extensions (🔌 icon on sidebar)
+Search for "SQLite Viewer" or "SQLite Explorer" and install it
+After install, go to your file explorer in VS Code
+Right-click wallet.db → Choose “Open Database”
+Click on the transactions table → it shows the full content in a table view
