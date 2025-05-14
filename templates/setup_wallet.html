@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}Set Up Wallet{% endblock %}
+{% block content %}
+<div class="flex justify-center items-center py-12">
+    <div class="w-full max-w-md">
+        <div class="animate-in bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+            <div class="bg-gradient-to-r from-green-600 to-teal-600 px-6 py-5">
+                <h2 class="text-xl font-bold text-white flex items-center">
+                    <i class="bi bi-gear mr-2"></i>Set Up Your Wallet
+                </h2>
+            </div>
+            <div class="p-6">
+                <form method="POST" class="needs-validation space-y-4" novalidate>
+                    <div>
+                        <label for="eth_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <i class="bi bi-ethereum mr-1"></i>Ethereum Address
+                        </label>
+                        <input type="text" id="eth_address" name="eth_address" 
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                            required>
+                        <div class="mt-1 text-sm text-red-600 hidden">Please enter your Ethereum address.</div>
+                    </div>
+
+                    <div>
+                        <label for="eth_private_key" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <i class="bi bi-key mr-1"></i>Ethereum Private Key
+                        </label>
+                        <input type="text" id="eth_private_key" name="eth_private_key" 
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                            required>
+                        <div class="mt-1 text-sm text-red-600 hidden">Please enter your private key.</div>
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <i class="bi bi-lock mr-1"></i>Password (for encryption)
+                        </label>
+                        <input type="password" id="password" name="password" 
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                            required>
+                        <div class="mt-1 text-sm text-red-600 hidden">Please enter a password.</div>
+                    </div>
+
+                    <button type="submit" 
+                        class="btn-glow w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center">
+                        <i class="bi bi-save mr-2"></i>Save Wallet
+                    </button>
+                </form>
+
+                <div class="mt-6">
+                    <div class="p-4 bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-400 rounded-md">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="bi bi-exclamation-triangle text-yellow-400 dark:text-yellow-300"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-yellow-700 dark:text-yellow-100">
+                                    Never share your private key with anyone. Store it securely.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    anime({
+        targets: '.animate-in',
+        translateY: [30, 0],
+        opacity: [0, 1],
+        easing: 'easeOutElastic(1, .8)',
+        duration: 1200,
+        delay: 300
+    });
+
+    const form = document.querySelector('form.needs-validation');
+
+    form.addEventListener('submit', function(event) {
+        let isValid = true;
+
+        form.querySelectorAll('input[required]').forEach(input => {
+            if (!input.value.trim()) {
+                isValid = false;
+                input.classList.add('border-red-500');
+                input.classList.remove('border-gray-300');
+                input.nextElementSibling.classList.remove('hidden');
+            } else {
+                input.classList.remove('border-red-500');
+                input.classList.add('border-gray-300');
+                input.nextElementSibling.classList.add('hidden');
+            }
+        });
+
+        if (!isValid) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            anime({
+                targets: form,
+                translateX: [0, -10, 10, -10, 10, 0],
+                duration: 500,
+                easing: 'easeInOutSine'
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

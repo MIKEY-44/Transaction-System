@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}Receive Funds{% endblock %}
+{% block content %}
+<div class="flex justify-center items-center py-12">
+    <div class="w-full max-w-md">
+        <div class="animate-in bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+            <div class="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-5">
+                <h2 class="text-xl font-bold text-white flex items-center">
+                    <i class="bi bi-qr-code mr-2"></i>Receive Funds
+                </h2>
+            </div>
+            <div class="p-6 text-center">
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Your Wallet Address</h3>
+                    <div class="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <p class="font-mono text-sm break-all text-gray-800 dark:text-gray-200">{{ wallet_address }}</p>
+                    </div>
+                    <button id="copyAddress" class="mt-2 inline-flex items-center px-3 py-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-white text-sm rounded transition-colors duration-200">
+                        <i class="bi bi-clipboard mr-1"></i>Copy
+                    </button>
+                </div>
+
+                <div class="mb-6 flex justify-center">
+                    <div class="qr-wrapper p-4 bg-white dark:bg-gray-900 rounded-lg border-2 border-gray-200 dark:border-gray-700 inline-block">
+                        <img src="{{ url_for('generate_qr') }}" alt="QR Code" class="w-48 h-48 object-contain">
+                    </div>
+                </div>
+
+                <p class="text-gray-600 dark:text-gray-300 mb-6">Scan the QR code or copy the address to send funds to your wallet.</p>
+
+                <div class="p-4 bg-blue-50 dark:bg-blue-900 rounded-lg border border-blue-100 dark:border-blue-500 mb-6">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-700 text-blue-600 dark:text-white mr-3">
+                            <i class="bi bi-info-circle text-xl"></i>
+                        </div>
+                        <p class="text-sm text-blue-700 dark:text-blue-200">
+                            This address can receive ETH and other ERC-20 tokens on the Ethereum network.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <a href="{{ url_for('index') }}" class="inline-flex items-center px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors duration-200">
+                        <i class="bi bi-house mr-2"></i>Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        anime({
+            targets: '.animate-in',
+            translateY: [30, 0],
+            opacity: [0, 1],
+            easing: 'easeOutElastic(1, .8)',
+            duration: 1200,
+            delay: 300
+        });
+
+        anime({
+            targets: '.qr-wrapper',
+            scale: [0.9, 1],
+            opacity: [0, 1],
+            easing: 'easeOutQuad',
+            duration: 800,
+            delay: 600
+        });
+
+        anime({
+            targets: '.qr-wrapper',
+            boxShadow: [
+                '0 0 0 0 rgba(59, 130, 246, 0)',
+                '0 0 0 10px rgba(59, 130, 246, 0.1)',
+                '0 0 0 0 rgba(59, 130, 246, 0)'
+            ],
+            duration: 2000,
+            easing: 'easeInOutSine',
+            loop: true,
+            delay: 1000
+        });
+
+        const copyButton = document.getElementById('copyAddress');
+        if (copyButton) {
+            copyButton.addEventListener('click', () => {
+                const address = '{{ wallet_address }}';
+                navigator.clipboard.writeText(address).then(() => {
+                    const originalText = copyButton.innerHTML;
+                    copyButton.innerHTML = '<i class="bi bi-check-lg mr-1"></i>Copied!';
+                    copyButton.classList.add('bg-green-100', 'text-green-800');
+
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalText;
+                        copyButton.classList.remove('bg-green-100', 'text-green-800');
+                    }, 2000);
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

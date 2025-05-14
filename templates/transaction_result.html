@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block title %}Transaction Result{% endblock %}
+{% block content %}
+<div class="flex justify-center items-center py-12">
+    <div class="w-full max-w-2xl">
+        <div class="animate-in bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+            {% if status == "success" %}
+                <div class="bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-5">
+                    <h2 class="text-xl font-bold text-white flex items-center">
+                        <i class="bi bi-check-circle mr-2"></i>Transaction Successful
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="mb-6 p-4 bg-green-50 dark:bg-green-900 rounded-lg border-l-4 border-green-500">
+                        <h3 class="text-lg font-medium text-green-800 dark:text-green-200 mb-2">Transaction Sent Successfully!</h3>
+                        <p class="text-green-700 dark:text-green-100 mb-2"><strong>Transaction Hash:</strong></p>
+                        <div class="p-3 bg-white dark:bg-gray-900 rounded border border-green-200 dark:border-green-500">
+                            <p class="font-mono text-sm break-all text-gray-800 dark:text-gray-100">{{ tx_hash }}</p>
+                        </div>
+                        <button id="copyTxHash" class="mt-2 inline-flex items-center px-3 py-1 bg-green-100 hover:bg-green-200 dark:bg-green-800 dark:hover:bg-green-700 text-green-800 dark:text-green-100 text-sm rounded transition-colors duration-200">
+                            <i class="bi bi-clipboard mr-1"></i>Copy Hash
+                        </button>
+                    </div>
+
+                    <div class="p-4 bg-blue-50 dark:bg-blue-900 rounded-lg border border-blue-100 dark:border-blue-500 mb-6">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-700 text-blue-600 dark:text-white mr-3">
+                                <i class="bi bi-info-circle text-xl"></i>
+                            </div>
+                            <p class="text-sm text-blue-700 dark:text-blue-200">
+                                Your transaction has been submitted to the network. It may take a few minutes to be confirmed.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="bg-gradient-to-r from-red-600 to-pink-600 px-6 py-5">
+                    <h2 class="text-xl font-bold text-white flex items-center">
+                        <i class="bi bi-x-circle mr-2"></i>Transaction Failed
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="mb-6 p-4 bg-red-50 dark:bg-red-900 rounded-lg border-l-4 border-red-500">
+                        <h3 class="text-lg font-medium text-red-800 dark:text-red-200 mb-2">Transaction Failed</h3>
+                        <p class="text-red-700 dark:text-red-100 mb-2"><strong>Error Message:</strong></p>
+                        <div class="p-3 bg-white dark:bg-gray-900 rounded border border-red-200 dark:border-red-500">
+                            <p class="font-mono text-sm break-all text-gray-800 dark:text-gray-100">{{ error }}</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-yellow-50 dark:bg-yellow-900 rounded-lg border border-yellow-100 dark:border-yellow-500 mb-6">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-700 text-yellow-600 dark:text-white mr-3">
+                                <i class="bi bi-exclamation-triangle text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-yellow-700 dark:text-yellow-100">
+                                    Common reasons for transaction failures:
+                                </p>
+                                <ul class="list-disc list-inside text-xs text-yellow-700 dark:text-yellow-200 mt-1">
+                                    <li>Insufficient funds for gas</li>
+                                    <li>Invalid recipient address</li>
+                                    <li>Network congestion</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="px-6 pb-6 flex justify-center space-x-4">
+                <a href="{{ url_for('index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-lg transition-colors duration-200">
+                    <i class="bi bi-house mr-2"></i>Back to Home
+                </a>
+                <a href="{{ url_for('send_transaction') }}" class="inline-flex items-center px-4 py-2 {% if status == 'success' %}bg-green-600 hover:bg-green-700{% else %}bg-blue-600 hover:bg-blue-700{% endif %} text-white rounded-lg transition-colors duration-200">
+                    <i class="bi bi-send mr-2"></i>New Transaction
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    anime({
+        targets: '.animate-in',
+        translateY: [30, 0],
+        opacity: [0, 1],
+        easing: 'easeOutElastic(1, .8)',
+        duration: 1200,
+        delay: 300
+    });
+
+    {% if status == "success" %}
+        anime({
+            targets: '.bi-check-circle',
+            scale: [0, 1],
+            opacity: [0, 1],
+            easing: 'easeOutElastic(1, .8)',
+            duration: 1500,
+            delay: 600
+        });
+
+        const copyButton = document.getElementById('copyTxHash');
+        if (copyButton) {
+            copyButton.addEventListener('click', () => {
+                const txHash = '{{ tx_hash }}';
+                navigator.clipboard.writeText(txHash).then(() => {
+                    const originalText = copyButton.innerHTML;
+                    copyButton.innerHTML = '<i class="bi bi-check-lg mr-1"></i>Copied!';
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+        }
+    {% else %}
+        anime({
+            targets: '.bi-x-circle',
+            rotate: [0, 5, -5, 5, -5, 0],
+            duration: 800,
+            easing: 'easeInOutSine',
+            delay: 600
+        });
+    {% endif %}
+});
+</script>
+{% endblock %}

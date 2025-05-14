@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block title %}Crypto Wallet{% endblock %}
+{% block content %}
+<div class="animate-in mb-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl p-6 text-white text-center shadow-lg transform transition-all hover:scale-[1.01]">
+    <h1 class="text-3xl font-bold mb-2">Welcome to Your Crypto Wallet</h1>
+    {% if current_user.is_authenticated %}
+        <p class="text-xl">Hello, <span class="font-semibold">{{ current_user.username }}</span>!</p>
+    {% endif %}
+</div>
+
+{% if current_user.is_authenticated %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% if current_user.eth_address %}
+            <div class="crypto-card group">
+                <div class="h-full bg-white dark:bg-gray-800 rounded-xl shadow-card overflow-hidden transition-all duration-300 hover:shadow-card-hover border border-gray-100 dark:border-gray-700">
+                    <div class="p-6 flex flex-col items-center">
+                        <div class="w-16 h-16 mb-4 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                            <i class="bi bi-wallet2 text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">View Wallet</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6 text-center">Check your wallet details and balance.</p>
+                        <a href="{{ url_for('wallet') }}" class="btn-glow mt-auto w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center">
+                            <i class="bi bi-eye mr-2"></i>Go to Wallet
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="crypto-card group">
+                <div class="h-full bg-white dark:bg-gray-800 rounded-xl shadow-card overflow-hidden transition-all duration-300 hover:shadow-card-hover border border-gray-100 dark:border-gray-700">
+                    <div class="p-6 flex flex-col items-center">
+                        <div class="w-16 h-16 mb-4 flex items-center justify-center rounded-full bg-purple-100 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                            <i class="bi bi-gear text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Set Up Wallet</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6 text-center">Configure your cryptocurrency wallet.</p>
+                        <a href="{{ url_for('setup_wallet') }}" class="btn-glow mt-auto w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center">
+                            <i class="bi bi-plus-circle mr-2"></i>Set Up Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="crypto-card group">
+            <div class="h-full bg-white dark:bg-gray-800 rounded-xl shadow-card overflow-hidden transition-all duration-300 hover:shadow-card-hover border border-gray-100 dark:border-gray-700">
+                <div class="p-6 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 flex items-center justify-center rounded-full bg-green-100 text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">
+                        <i class="bi bi-send text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Send Transaction</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-center">Send cryptocurrency to another address.</p>
+                    <a href="{{ url_for('send_transaction') }}" class="btn-glow mt-auto w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center">
+                        <i class="bi bi-arrow-right mr-2"></i>Send Now
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="crypto-card group">
+            <div class="h-full bg-white dark:bg-gray-800 rounded-xl shadow-card overflow-hidden transition-all duration-300 hover:shadow-card-hover border border-gray-100 dark:border-gray-700">
+                <div class="p-6 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 flex items-center justify-center rounded-full bg-amber-100 text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300">
+                        <i class="bi bi-clock-history text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Transaction History</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-center">View your past transactions.</p>
+                    <a href="{{ url_for('transaction_history') }}" class="btn-glow mt-auto w-full py-2 px-4 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center">
+                        <i class="bi bi-list-ul mr-2"></i>View History
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="crypto-card group">
+            <div class="h-full bg-white dark:bg-gray-800 rounded-xl shadow-card overflow-hidden transition-all duration-300 hover:shadow-card-hover border border-gray-100 dark:border-gray-700">
+                <div class="p-6 flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 flex items-center justify-center rounded-full bg-cyan-100 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition-colors duration-300">
+                        <i class="bi bi-qr-code text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Receive Funds</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-center">Get your wallet address and QR code.</p>
+                    <a href="{{ url_for('receive') }}" class="btn-glow mt-auto w-full py-2 px-4 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center">
+                        <i class="bi bi-download mr-2"></i>Receive
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="animate-in mt-8 text-center">
+        <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">Get Started with Your Crypto Wallet</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Securely manage your cryptocurrency assets with our easy-to-use wallet.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{{ url_for('login') }}" class="btn-glow py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center">
+                    <i class="bi bi-box-arrow-in-right mr-2"></i>Login
+                </a>
+                <a href="{{ url_for('register') }}" class="py-3 px-6 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-lg transition-colors duration-200 flex items-center justify-center">
+                    <i class="bi bi-person-plus mr-2"></i>Register
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
