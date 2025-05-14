@@ -54,16 +54,20 @@ BCTM-main/
 
 
 |Create a virtual environment|
+
 python3 -m venv venv
+
 source venv/bin/activate  
 
 
 
 |Install dependencies|
+
 pip install -r requirements.txt
 
 
 |Run the app|
+
 python app.py
 
 
@@ -81,6 +85,9 @@ pip install flask flask_sqlalchemy flask_bcrypt flask_login web3 qrcode cryptogr
 🙏 Acknowledgements
 
 Built with the help of ChatGPT (OpenAI) and DeepSeek Developer for code generation, architecture guidance, and debugging.
+
 Flask documentation: https://flask.palletsprojects.com/
+
 Web3.py documentation: https://web3py.readthedocs.io/
+
 MetaMask for wallet
