@@ -34,26 +34,33 @@ This project was **entirely built using AI assistance from ChatGPT (OpenAI)** an
 
 ---
 
-## 📂 Project Structure
 
 
+*## 📂 Project Structure *
 
 
 BCTM-main/
 │
 ├── app.py # Main Flask application
+
 ├── generator.py # Auxiliary utilities
+
 ├── wallet.db # SQLite database
+
 ├── static/ # Static assets (e.g. logo)
+
 ├── templates/ # HTML templates (Jinja2)
+
 ├── instance/ # Flask instance folder
+
 ├── requirements.txt # Python dependencies
+
 ├── .gitignore
 
 
 
 
-|Create a virtual environment|
+*|Create a virtual environment|*
 
 python3 -m venv venv
 
@@ -61,18 +68,18 @@ source venv/bin/activate
 
 
 
-|Install dependencies|
+*|Install dependencies|*
 
 pip install -r requirements.txt
 
 
-|Run the app|
+*|Run the app|*
 
 python app.py
 
 
 
-📦 Dependencies
+*📦 Dependencies*
 
 Install with:
 
@@ -82,7 +89,7 @@ pip install flask flask_sqlalchemy flask_bcrypt flask_login web3 qrcode cryptogr
 
 
 
-🙏 Acknowledgements
+*🙏 Acknowledgements*
 
 Built with the help of ChatGPT (OpenAI) and DeepSeek Developer for code generation, architecture guidance, and debugging.
 
@@ -90,4 +97,4 @@ Flask documentation: https://flask.palletsprojects.com/
 
 Web3.py documentation: https://web3py.readthedocs.io/
 
-MetaMask for wallet
+MetaMask for wallet  https://metamask.io
